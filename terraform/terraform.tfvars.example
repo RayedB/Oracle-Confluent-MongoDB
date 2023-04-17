@@ -1,0 +1,21 @@
+
+aws_access_key = ""
+aws_secret_key = ""
+aws_token = ""
+
+mongodbatlas_public_key = ""
+mongodbatlas_private_key = ""
+mongodbatlas_project = ""
+
+confluentcloud_public_key = ""
+confluentcloud_private_key = ""
+
+oracle_username = ""
+
+ec2_key_name = ""
+
+
+
+
+
+
