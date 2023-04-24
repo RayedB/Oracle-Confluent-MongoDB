@@ -14,3 +14,4 @@ variable "aws_token" {}
 
 variable "oracle_username" {}
 variable "ec2_key_name" {}
+variable "tag_name"{}
