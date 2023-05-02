@@ -102,6 +102,68 @@ module "db" {
   tags = local.tags
 }
 
+
+data "cloudinit_config" "ec2_startup" {
+  # part {
+  #   content_type = "text/cloud-config"
+  #   content = yamlencode({
+  #     write_files = [
+  #       {
+  #         encoding    = "base64gzip"
+  #         content     = file("${path.root}/sql/create-table.sql")
+  #         path        = "/home/ubuntu/sql/create-table.sql"
+  #         permissions = "0755"
+  #       }
+  #       , 
+  #       {
+  #         encoding    = "base64gzip"
+  #         content     = file("${path.root}/sql/create-view.sql")
+  #         path        = "/home/ubuntu/sql/create-view.sql"
+  #         permissions = "0755"
+  #       }
+  #       , 
+  #       {
+  #         encoding    = "base64gzip"
+  #         content     = file("${path.root}/sql/customer.sql")
+  #         path        = "/home/ubuntu/sql/customer.sql"
+  #         permissions = "0755"
+  #       }
+  #       , 
+  #       {
+  #         encoding    = "base64gzip"
+  #         content     = file("${path.root}/sql/order_items.sql")
+  #         path        = "/home/ubuntu/sql/order_items.sql"
+  #         permissions = "0755"
+  #       }
+  #       , 
+  #       {
+  #         encoding    = "base64gzip"
+  #         content     = file("${path.root}/sql/products.sql")
+  #         path        = "/home/ubuntu/sql/products.sql"
+  #         permissions = "0755"
+  #       }
+  #       , 
+  #       {
+  #         encoding    = "base64gzip"
+  #         content     = file("${path.root}/sql/stores.sql")
+  #         path        = "/home/ubuntu/sql/stores.sql"
+  #         permissions = "0755"
+  #       }
+  #     ]
+  #   })
+  # } 
+  part {
+    content_type = "text/x-shellscript"
+    content      = templatefile("${path.root}/bash/ec2-sql.sh",{
+      ORACLE_USERNAME = var.oracle_username
+      ORACLE_PASSWORD = module.db.db_instance_password
+      ORACLE_HOST = module.db.db_instance_address
+      ORACLE_PORT = "1521"
+      ORACLE_DATABASE = module.db.db_instance_name
+  })
+  }
+}
+
 module ec2 {
   source= "terraform-aws-modules/ec2-instance/aws"
 
@@ -113,22 +175,12 @@ module ec2 {
   subnet_id              = module.vpc.public_subnets[0]
   associate_public_ip_address = true
   tags = local.tags
-  # user_data = base64encode(file("bash/ec2-sql.sh"))
 
-  
-  user_data =templatefile("/Users/gabriel.paranthoen/Documents/1-dev/demo/OracleToMongo/Oracle-Confluent-MongoDB/terraform/bash/ec2-sql.sh", {
-    ORACLE_USERNAME= var.oracle_username
-    ORACLE_PASSWORD= module.db.db_instance_password
-    ORACLE_HOST= module.db.db_instance_address
-    ORACLE_PORT="1521"
-    ORACLE_DATABASE=module.db.db_instance_name
-  })
+  user_data_base64  = data.cloudinit_config.ec2_startup.rendered
 
   depends_on = [
     module.db
   ]
-
-
 }
 // TODO: return ssh command 
 

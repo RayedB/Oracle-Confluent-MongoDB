@@ -1,5 +1,5 @@
 PROMPT INSERTING into ORDER_ITEMS
-SET DEFINE OFF;
+set define off
 begin
   insert into order_items (ORDER_ID,LINE_ITEM_ID,PRODUCT_ID,UNIT_PRICE,QUANTITY,SHIPMENT_ID) values (1,1,33,37,4,null);
   insert into order_items (ORDER_ID,LINE_ITEM_ID,PRODUCT_ID,UNIT_PRICE,QUANTITY,SHIPMENT_ID) values (1,2,11,30.69,2,null);

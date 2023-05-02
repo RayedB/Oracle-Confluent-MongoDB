@@ -1,3 +1,6 @@
+SET PAGESIZE 0
+SET FEEDBACK OFF
+
 PROMPT Creating tables 
 
 create table customers (

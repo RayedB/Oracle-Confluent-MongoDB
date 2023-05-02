@@ -1,5 +1,5 @@
 PROMPT INSERTING into PRODUCTS
-SET DEFINE OFF;
+set define off
 declare
   prod_details varchar2(32767);
 begin
