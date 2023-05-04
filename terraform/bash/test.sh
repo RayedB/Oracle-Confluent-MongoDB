@@ -1,0 +1,8 @@
+#!/bin/bash
+
+echo ${ORACLE_USERNAME}
+echo ${ORACLE_USERNAME}
+echo ${ORACLE_PASSWORD}
+echo ${ORACLE_HOST}
+echo ${ORACLE_PORT}
+echo ${ORACLE_DATABASE}

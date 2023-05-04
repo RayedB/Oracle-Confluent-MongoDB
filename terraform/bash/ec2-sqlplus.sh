@@ -1,17 +1,16 @@
 #!/usr/bin/env sh
-# https://askubuntu.com/a/207145/585248
-
+echo "download packages... "
 wget https://download.oracle.com/otn_software/linux/instantclient/1918000/oracle-instantclient19.18-sqlplus-19.18.0.0.0-2.x86_64.rpm
-wget https://www.oracle.com/database/technologies/instant-client/linux-x86-64-downloads.html#:~:text=instantclient%2Dbasic%2Dlinux.x64%2D19.18.0.0.0dbru.zip
+wget https://download.oracle.com/otn_software/linux/instantclient/1918000/oracle-instantclient19.18-basic-19.18.0.0.0-2.x86_64.rpm
 
-sudo apt-get install alien
+# sudo apt-get install alien -y
 
-CURRDIR="$(pwd)";
+# CURRDIR="$(pwd)";
 cd $(dirname "${0}");
 
 # Tools and dependencies:
 sudo apt-get update
-sudo apt-get install alien libaio1 rlwrap
+sudo apt-get install alien libaio1 rlwrap -y
 
 # Oracle Packages:
 echo "Installing instantclient-basic..."
@@ -39,5 +38,5 @@ alias sqlplus="rlwrap -i -f ~/.sqlplus_history -H ~/.sqlplus_history -s 30000 sq
 !EOF
 touch ~/.sqlplus_history
 
-cd "${CURRDIR}"
-echo "DONE!!";
+# cd "${CURRDIR}"
+echo "SQL Plus installed!!";

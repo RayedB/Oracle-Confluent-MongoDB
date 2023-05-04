@@ -12,5 +12,9 @@ variable "aws_secret_key" {}
 variable "aws_token" {}
 
 
-variable "oracle_username" {}
+
 variable "ec2_key_name" {}
+variable "tag_name"{}
+
+variable "oracle_username" {}
+
